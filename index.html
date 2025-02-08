@@ -1,0 +1,96 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Document</title>
+    <link rel="stylesheet" href="style.css">
+    <meta name="viewport" content="initial-scale=1.0, width=device-width" />
+    <script src="https://maps.googleapis.com/maps/api/js?key=AIzaSyDD0W2K12-qFxqJFIkBK8sqESIhue3QYY4&libraries=places" async defer></script>
+<body>
+    <nav class="nav">
+        <h1>Tripo</h1>
+        <div class="date">date</div>
+    </nav>
+    <div class="place">
+        <div class="location">
+            <div class="from">
+                <h2>From:</h2>
+                <input type="text" id="from">
+            </div>
+            <div class="to">
+                <h2>To:</h2>
+                <input type="text" id="to">
+                <button id="btn1">Search</button>
+
+            </div>
+        </div>
+        <div class="route">
+            <div class="data" id="map">
+               
+            </div>
+            <div class="details">
+                <div class="weather data">
+                    <h1 id="loc">Current Weather at </h1>
+                    <div class="dayTime">
+                        <div class="day"></div>
+                        <div class="time"></div>
+                    </div>
+                    <div class="weatherData">
+                        <div class="imgCont">
+                            <img src="" alt="weather" id="img">
+                        </div>
+                        <div class="temp">
+                            <div class="currTemp">
+                                <h2>Current Temperature: </h2>
+                            </div>
+                            <div class="maxTemp">
+                                <h2>Max Temperature: </h2>
+                            </div>
+                            <div class="minTemp">
+                                <h2>Min Temperature: </h2>
+                            </div>
+                            <div class="feels">
+                                <h2>Feels like: </h2>
+                            </div>
+                        </div>
+                    </div>
+                    <div class="desc">
+                        <h2>Description: </h2>
+                    </div>
+                </div>
+                <div class="envir">
+                    <div class="sunTime data">
+                        <div class="rise">
+                            <img src="sunset_2140135.png" class="sunrise" alt="">
+                            <h4>Sunrise</h4>
+                            <h3 class="riseTime"></h3>
+                        </div>
+                        <div class="set">
+                            <img src="sunset.png" class="sunset"alt="">
+                            <h4>Sunset</h4>
+                            <h5 class="setTime"></h5>
+                        </div>
+                    </div>
+                    <div class="Airquality data">
+                        <div class="windSpeed">
+                            <img src="wind.png" alt="" height="60px" width="60px">
+                            <h5>Wind Speed</h5>
+                            <h4 class="speed"></h4>
+                        </div>
+                        <div class="Humidity">
+                            <img src="humidity.png" alt="" height="60px" width="60px">
+                            <h5>Humidity</h5>
+                            <h5 class="humidity"></h5>
+                        </div>
+                    </div>
+                </div>
+            </div>
+        </div>
+    </div>
+    <div class="btn">
+        <button id="btn">accomodation</button>
+    </div>
+    <script src="script.js"></script>
+</body>
+</html>

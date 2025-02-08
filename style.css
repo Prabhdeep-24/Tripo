@@ -1,0 +1,223 @@
+@import url('https://fonts.googleapis.com/css2?family=Orbitron:wght@500&family=Poppins:wght@400;700&display=swap');
+
+* {
+    padding: 0;
+    margin: 0;
+    box-sizing: border-box;
+    font-family: 'Poppins', sans-serif;
+    scroll-behavior: smooth;
+}
+
+body {
+    background: linear-gradient(135deg, #141e30, #243b55);
+    background-size: 400% 400%;
+    min-height: 100vh;
+    color: white;
+    display: flex;
+    flex-direction: column;
+    align-items: center;
+    overflow-x: hidden;
+    animation: gradient-animation 20s infinite;
+}
+
+.nav {
+    width: 100%;
+    padding: 20px 40px;
+    background: rgba(0, 0, 0, 0.85);
+    border-bottom: 1px solid rgba(255, 255, 255, 0.1);
+    position: fixed;
+    top: 0;
+    z-index: 999;
+    display: flex;
+    justify-content: space-between;
+    align-items: center;
+    box-shadow: 0 5px 15px rgba(0, 0, 0, 0.5);
+}
+
+.nav h1 {
+    font-size: 36px;
+    font-family: 'Orbitron', sans-serif;
+    background: linear-gradient(135deg, #f72585, #7209b7, #3a0ca3);
+    -webkit-background-clip: text;
+    color: transparent;
+    animation: gradient-glow 3s infinite;
+}
+
+.place {
+    padding-top: 120px;
+    width: 100%;
+    padding-left:150px;
+}
+
+.location {
+    display: flex;
+    justify-content: center;
+    gap: 30px;
+    margin: 40px 0;
+}
+
+input {
+    padding: 15px;
+    border-radius: 20px;
+    border: none;
+    font-size: 16px;
+    background: rgba(255, 255, 255, 0.1);
+    color: white;
+    transition: all 0.3s ease;
+    width: 200px;
+    text-align: center;
+}
+
+input:focus {
+    outline: none;
+    transform: scale(1.05);
+    box-shadow: 0 0 15px rgba(0, 219, 255, 0.7);
+}
+
+#btn1 {
+    padding: 12px 30px;
+    background: linear-gradient(135deg, #f72585, #4361ee);
+    border: none;
+    border-radius: 25px;
+    color: white;
+    font-weight: bold;
+    font-size: 16px;
+    cursor: pointer;
+    transition: all 0.3s ease;
+    margin-left:20px;
+}
+
+#btn1:hover {
+    transform: translateY(-5px);
+    box-shadow: 0 10px 20px rgba(247, 37, 133, 0.7);
+}
+
+.route {
+    display: grid;
+    grid-template-columns: 1fr 1fr;
+    gap: 40px;
+    padding: 40px;
+    width: 90%;
+}
+
+.data {
+    position: relative;
+    border-radius: 20px;
+    background: rgba(255, 255, 255, 0.05);
+    border: 2px solid rgba(255, 255, 255, 0.2);
+    box-shadow: 0 10px 30px rgba(0, 0, 0, 0.5);
+    padding: 20px;
+    backdrop-filter: blur(10px);
+    transition: all 0.3s ease;
+}
+
+.data:hover {
+    transform: translateY(-10px);
+    box-shadow: 0 20px 40px rgba(247, 37, 133, 0.3);
+}
+
+.weather h1 {
+    font-size: 24px;
+    text-shadow: 0 0 10px rgba(255, 255, 255, 0.5);
+    text-align: center;
+}
+
+.weatherData {
+    display: flex;
+    align-items: center;
+    justify-content: space-between;
+    margin-top: 20px;
+}
+
+.weatherData img {
+    height: 100px;
+    filter: drop-shadow(0 0 10px rgba(100, 65, 165, 0.5));
+    animation: float 5s ease-in-out infinite;
+}
+
+.envir {
+    display: flex;
+    gap: 20px;
+    margin-top: 20px;
+}
+
+.sunTime, .Airquality{
+    flex: 1;
+    height: 150px;
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    font-size: 18px;
+    background: linear-gradient(135deg, rgba(0, 0, 0, 0.3), rgba(255, 255, 255, 0.1));
+    border-radius: 15px;
+}
+.Airquality{
+    padding-top:0px;
+    padding-left: 10px;
+}
+
+
+#btn {
+    padding: 15px 40px;
+    background: linear-gradient(135deg, #4cc9f0, #4895ef);
+    color: white;
+    font-size: 18px;
+    border: none;
+    border-radius: 25px;
+    cursor: pointer;
+    transition: all 0.3s ease;
+    margin-bottom: 20px;
+}
+
+#btn:hover {
+    transform: translateY(-5px);
+    box-shadow: 0 10px 30px rgba(72, 149, 239, 0.7);
+}
+
+@keyframes float {
+    0% { transform: translateY(0); }
+    50% { transform: translateY(-10px); }
+    100% { transform: translateY(0); }
+}
+
+.sunTime{
+    gap:40px;
+    display: flex;
+    align-items: flex-start;
+    justify-content: center;
+}
+
+.rise{
+    border-right: solid 1px rgb(59, 56, 56);
+    padding-right: 30px;
+}
+
+.rise ,.set{
+    display: flex;
+    flex-direction: column;
+    justify-content: center;
+    align-items: center;
+}
+.sunrise, .sunset{
+    
+    height: 50px;
+    width: 50px;
+}
+.windSpeed, .Humidity{
+    display: flex;
+    flex-direction: column;
+    align-items: center;
+    justify-content: center;
+}
+.windSpeed{
+    border-right: solid 1px rgb(59, 56, 56);
+    justify-content: center;
+    padding-right: 20px;
+    padding-top: -10px;
+}
+.Humidity{
+    padding-left: 20px;
+}
+.speed, .humidity{
+    padding-top:5x;
+}
