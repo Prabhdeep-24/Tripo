@@ -1,16 +1,21 @@
 let map;
 let directionsService;
 let directionsRenderer;
+let autocomplete;
+
+let from=document.querySelector('#from')
+let to=document.querySelector('#to')
 
 document.addEventListener('DOMContentLoaded', () => {
     document.querySelector(".from").addEventListener("change", calculateAndDisplayRoute);
     document.querySelector(".to").addEventListener("change", calculateAndDisplayRoute);
 });
+
 async function getWeather(latitude,longitude){
     try{
-        let response= await fetch(`http://localhost:3000/weather?lat=${latitude}&long=${longitude}`);
-        let data= await response.json();
-        console.log(data);
+        // let response= await fetch(`http://localhost:3000/weather?lat=${latitude}&long=${longitude}`);
+        // let data= await response.json();
+        // console.log(data);
         let fromLoc=document.querySelector('#from');
         if(!fromLoc.value){
             fromLoc.value=data.name;
@@ -59,6 +64,14 @@ async function initMap(latitude,longitude) {
     }
 }
 
+async function initAutocomplete(element){
+    autocomplete=new google.maps.places.Autocomplete(
+        element,
+        {
+            types:['establishment'],
+        }
+    )
+}
   
 async function calculateAndDisplayRoute() {
         try{
@@ -67,11 +80,6 @@ async function calculateAndDisplayRoute() {
             const to = document.querySelector("#to").value;
             console.log(from)
             console.log(to)
-        
-            if (!from || !to) {
-                window.alert("Please enter both 'From' and 'To' locations.");
-                return;
-            }
         
             if (directionsRenderer) {
                 directionsRenderer.setDirections({ routes: [] });
@@ -174,6 +182,10 @@ search.addEventListener('click', async function(){
     let searchTo=document.querySelector('#to');
     let searchVal=searchTo.value;
     let searchFrom=document.querySelector('#from').value;
+    if (!searchFrom || !searchTo) {
+        window.alert("Please enter both 'From' and 'To' locations.");
+        return;
+    }
     if(searchVal){
         let data=await fetch(`http://localhost:3000/locate?location=${searchVal}`);
         let response= await data.json();
