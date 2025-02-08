@@ -76,8 +76,8 @@ async function initAutocomplete(element){
 
 async function calculateAndDisplayRoute() {
     try{
-        const from = document.querySelector("#from").value;
-        const to = document.querySelector("#to").value;
+        let from = document.querySelector("#from").value;
+        let to = document.querySelector("#to").value;
         console.log(from)
         console.log(to)
         
@@ -121,6 +121,26 @@ async function calculateAndDisplayRoute() {
             directionsRenderer.setMap(map);
             directionsRenderer.setDirections(result);
             map.fitBounds(bounds);
+
+            let dist=document.querySelector('.distance');
+            let time=document.querySelector('.timeTaken');
+            let fromLoc=from.split(" ");
+            let toLoc=to.split(" ");
+            if(fromLoc.length>2){
+                from=`${fromLoc[0]} ${fromLoc[1]}`
+            }
+            else{
+                from=from.charAt(0).toUpperCase()+from.slice(1);
+            }
+            if(toLoc.length>2){
+                to=`${toLoc[0]} ${toLoc[1]}`
+            }
+            else{
+                to=to.charAt(0).toUpperCase()+to.slice(1);
+            }
+            dist.innerHTML=`Distance of ${from}  to ${to}: ${route[0].legs[0].distance.text}`;
+            time.innerHTML=`Total time to reach ${to} by driving: ${route[0].legs[0].duration.text}`;
+            console.log(dist.value);
         }
         catch(error){
             // alert(error.message)

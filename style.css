@@ -15,7 +15,6 @@ body {
     color: white;
     display: flex;
     flex-direction: column;
-    align-items: center;
     overflow-x: hidden;
     animation: gradient-animation 20s infinite;
 }
@@ -220,4 +219,16 @@ input:focus {
 }
 .speed, .humidity{
     padding-top:5x;
+}
+.famous{
+    display: flex;
+    flex-direction: column;
+    text-align: left;
+    border-bottom:solid rgb(42, 38, 38);
+}
+.TripDetails{
+    display: flex;
+    flex-direction: column;
+    justify-content: center;
+    align-items: center;
 }
