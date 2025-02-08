@@ -3,9 +3,6 @@ let directionsService;
 let directionsRenderer;
 let autocomplete;
 
-let from=document.querySelector('#from')
-let to=document.querySelector('#to')
-
 document.addEventListener('DOMContentLoaded', () => {
     document.querySelector(".from").addEventListener("change", calculateAndDisplayRoute);
     document.querySelector(".to").addEventListener("change", calculateAndDisplayRoute);
@@ -13,26 +10,30 @@ document.addEventListener('DOMContentLoaded', () => {
 
 async function getWeather(latitude,longitude){
     try{
-        // let response= await fetch(`http://localhost:3000/weather?lat=${latitude}&long=${longitude}`);
-        // let data= await response.json();
-        // console.log(data);
+        let response= await fetch(`http://localhost:3000/weather?lat=${latitude}&long=${longitude}`);
+        let data= await response.json();
+        console.log(data);
         let fromLoc=document.querySelector('#from');
         if(!fromLoc.value){
             fromLoc.value=data.name;
         }
-       
+        let toLoc=document.querySelector('#to');
         console.log(fromLoc);
-        loadData(data);
-        calculateAndDisplayRoute()
+        loadData(data,fromLoc,toLoc);
+        if(toLoc.value){
+            calculateAndDisplayRoute()
+        }
     }
     catch(error){
-        console.log(error);
+        console.log(error + "weather");
     }
 }
-function loadData(data){
+function loadData(data,fromLoc,toLoc){
     loadImage(data.weather[0].icon)
     let heading=document.querySelector('#loc');
-    heading.textContent=`Current Weather at ${data.name}`;
+    let ele=(toLoc.value?toLoc.value:fromLoc.value);
+    ele=ele.charAt(0).toUpperCase() + ele.slice(1);
+    heading.textContent=`Current Weather at ${ele}`;
     loadTemp(data.main);
     let desc=document.querySelector('.desc');
     desc.textContent=`Description: ${data.weather[0].description}`;
@@ -47,8 +48,8 @@ async function initMap(latitude,longitude) {
         const { Map } = await google.maps.importLibrary("maps");
         const { DirectionsService, DirectionsRenderer } = await google.maps.importLibrary("routes");
         map = new Map(document.getElementById("map"), {
-          center: { lat: latitude, lng: longitude },
-          zoom: 8,
+            center: { lat: latitude, lng: longitude },
+            zoom: 8,
         });
         console.log(map);
         directionsService = new DirectionsService();
@@ -72,99 +73,98 @@ async function initAutocomplete(element){
         }
     )
 }
-  
+
 async function calculateAndDisplayRoute() {
-        try{
-    
-            const from = document.querySelector("#from").value;
-            const to = document.querySelector("#to").value;
-            console.log(from)
-            console.log(to)
+    try{
+        const from = document.querySelector("#from").value;
+        const to = document.querySelector("#to").value;
+        console.log(from)
+        console.log(to)
         
-            if (directionsRenderer) {
-                directionsRenderer.setDirections({ routes: [] });
-            }
+        if (directionsRenderer) {
+            directionsRenderer.setDirections({ routes: [] });
+        }
         
-            const request = {
-                origin: from,
-                destination: to,
-                travelMode: google.maps.TravelMode.DRIVING,
-                optimizeWaypoints: true
-            };
+        const request = {
+            origin: from,
+            destination: to,
+            travelMode: google.maps.TravelMode.DRIVING,
+            optimizeWaypoints: true
+        };
         
-            const result = await directionsService.route(request);
-
-            const bounds = new google.maps.LatLngBounds();
+        const result = await directionsService.route(request);
+        
+        const bounds = new google.maps.LatLngBounds();
             
-            const route = result.routes;
-            console.log(route);
-            route.forEach(path=>{
-                path.legs.forEach(leg => {
-                    bounds.extend(leg.start_location);
-                    bounds.extend(leg.end_location);
-                    leg.steps.forEach(step => {
-                        bounds.extend(step.start_location);
-                        bounds.extend(step.end_location);
-                    });
+        const route = result.routes;
+        console.log(route);
+        route.forEach(path=>{
+            path.legs.forEach(leg => {
+                bounds.extend(leg.start_location);
+                bounds.extend(leg.end_location);
+                leg.steps.forEach(step => {
+                    bounds.extend(step.start_location);
+                    bounds.extend(step.end_location);
                 });
-            })
-
-            map.fitBounds(bounds, {
-                padding: {
-                    top: 50,
-                    right: 50,
-                    bottom: 50,
-                    left: 50
+            });
+        })
+        
+        map.fitBounds(bounds, {
+            padding: {
+                top: 50,
+                right: 50,
+                bottom: 50,
+                left: 50
                 }
             });
-
+            
             directionsRenderer.setMap(map);
             directionsRenderer.setDirections(result);
             map.fitBounds(bounds);
         }
         catch(error){
-            console.log(error.message)
+            // alert(error.message)
             alert("Could not calculate route. Please check the addresses and try again.");
         }
-}
-function loadImage(icon){
-    let img=document.querySelector('#img')
-    img.setAttribute('src',`https://openweathermap.org/img/wn/${icon}@2x.png`)   
-}
-function loadTemp(temperatures){
-    let curTemp=document.querySelector('.currTemp');
-    let curr=temperatures.temp-273.15;
-    curTemp.textContent=`Current Temperature: ${curr.toFixed(2)}°C`;
+    }
+    function loadImage(icon){
+        let img=document.querySelector('#img')
+        img.setAttribute('src',`https://openweathermap.org/img/wn/${icon}@2x.png`)   
+    }
+    function loadTemp(temperatures){
+        let curTemp=document.querySelector('.currTemp');
+        let curr=temperatures.temp-273.15;
+        curTemp.textContent=`Current Temperature: ${curr.toFixed(2)}°C`;
+        
+        
+        let maxTemp=document.querySelector('.maxTemp');
+        let max=temperatures.temp_max-273.15;
+        maxTemp.textContent=`Maximum Temperature: ${max.toFixed(2)}°C`;
 
-
-    let maxTemp=document.querySelector('.maxTemp');
-    let max=temperatures.temp_max-273.15;
-    maxTemp.textContent=`Maximum Temperature: ${max.toFixed(2)}°C`;
-
-    let minTemp=document.querySelector('.minTemp')
-    let min=temperatures.temp_min-273.15;
-    minTemp.textContent=`Minimum Temperature: ${min.toFixed(2)}°C`;
-
-    let feels=document.querySelector('.feels')
-    let feel=temperatures.feels_like-273.15;
-    feels.textContent=`Feels like: ${feel.toFixed(2)}°C`;
-}
-
-function loadDayDateTime(){
-    setInterval(() => { 
-        let day = document.querySelector('.day');
-        let time = document.querySelector('.time');
-        let dateCont=document.querySelector('.date');
-        let days = ["Sunday", "Monday", "Tuesday", "Wednesday", "Thursday", "Friday", "Saturday"];
-        let date = new Date();
-        dateCont.textContent=date.toLocaleDateString()
-        let currentDay = days[date.getDay()]; 
-        let currentTime = date.toLocaleTimeString(); 
-        time.textContent=currentTime;
-        day.textContent = `${currentDay}`;
-    }, 1000);
-}
-
+        let minTemp=document.querySelector('.minTemp')
+        let min=temperatures.temp_min-273.15;
+        minTemp.textContent=`Minimum Temperature: ${min.toFixed(2)}°C`;
+        
+        let feels=document.querySelector('.feels')
+        let feel=temperatures.feels_like-273.15;
+        feels.textContent=`Feels like: ${feel.toFixed(2)}°C`;
+    }
+    
+    function loadDayDateTime(){
+        setInterval(() => { 
+            let day = document.querySelector('.day');
+            let time = document.querySelector('.time');
+            let dateCont=document.querySelector('.date');
+            let days = ["Sunday", "Monday", "Tuesday", "Wednesday", "Thursday", "Friday", "Saturday"];
+            let date = new Date();
+            dateCont.textContent=date.toLocaleDateString()
+            let currentDay = days[date.getDay()]; 
+            let currentTime = date.toLocaleTimeString(); 
+            time.textContent=currentTime;
+            day.textContent = `${currentDay}`;
+        }, 1000);
+    }
+    
 function setRiseTime(data){
     let rise=document.querySelector(".riseTime");
     let set=document.querySelector(".setTime");
@@ -218,14 +218,17 @@ function loadQuality(data){
     // console.log(speed);
 }
 
-
 navigator.geolocation.getCurrentPosition((success)=>{
     try{
         console.log(success);
         lat=success.coords.latitude;
         long=success.coords.longitude;
+        let from=document.querySelector('#from')
+        let to=document.querySelector('#to')
         initMap(lat,long);
         getWeather(lat,long)
+        initAutocomplete(to)
+        initAutocomplete(from)
     }
     catch(error){
         alert("Unable to find your location");
