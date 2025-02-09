@@ -1,4 +1,5 @@
 // const { GoMaps } = require("gomaps"); 
+require("dotenv").config();
 const express = require('express');
 const CORS = require('cors');
 const axios = require('axios');
@@ -12,7 +13,7 @@ const PORT = 3000;
 
 app.get('/weather', async (req, res) => {
     try {
-        const APIKEY = "26ef2c245d0c538236d9e906a8cb9587";
+        const APIKEY = process.env.weather_API;
         const lat = req.query.lat;
         const long = req.query.long;
         const response = await axios.get(`https://api.openweathermap.org/data/2.5/weather?lat=${lat}&lon=${long}&appid=${APIKEY}`);
@@ -27,7 +28,7 @@ app.get('/weather', async (req, res) => {
 
 app.get('/locate',async(req,res)=>{
     try{
-        const APIKEY2="77aa10b7039e46a7bbfa06caaa0509c7";
+        const APIKEY2=process.env.location_API;
         let location=req.query.location;
         console.log(location)
         const response=await axios.get(`https://api.opencagedata.com/geocode/v1/json?q=${location}&key=${APIKEY2}`)
