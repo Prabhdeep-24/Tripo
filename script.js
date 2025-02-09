@@ -10,7 +10,7 @@ document.addEventListener('DOMContentLoaded', () => {
 
 async function getWeather(latitude,longitude){
     try{
-        let response= await fetch(`http://localhost:3000/weather?lat=${latitude}&long=${longitude}`);
+        let response= await fetch(`https://tripo-wvog.onrender.com/weather?lat=${latitude}&long=${longitude}`);
         let data= await response.json();
         console.log(data);
         let fromLoc=document.querySelector('#from');
@@ -211,7 +211,7 @@ search.addEventListener('click', async function(){
         return;
     }
     if(searchVal){
-        let data=await fetch(`http://localhost:3000/locate?location=${searchVal}`);
+        let data=await fetch(`https://tripo-wvog.onrender.com/locate?location=${searchVal}`);
         let response= await data.json();
         console.log(response)
         let latitude=response.results[0].geometry.lat
@@ -222,7 +222,7 @@ search.addEventListener('click', async function(){
     }
     else{
         if(searchFrom){
-            let data=await fetch(`http://localhost:3000/locate?location=${searchFrom}`);
+            let data=await fetch(`https://tripo-wvog.onrender.com/locate?location=${searchFrom}`);
             let response= await data.json();
             console.log(response)
             let latitude=response.results[0].geometry.lat
