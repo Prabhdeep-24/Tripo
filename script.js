@@ -78,6 +78,10 @@ async function calculateAndDisplayRoute() {
     try{
         let from = document.querySelector("#from").value;
         let to = document.querySelector("#to").value;
+        if(!to){
+            alert("Please enter the to location")
+            return;
+        }
         console.log(from)
         console.log(to)
         
@@ -193,7 +197,7 @@ function setRiseTime(data){
     rise.textContent=`${riseT.getHours()}:${riseT.getMinutes()}`
     let setTime=data.sys.sunset;
     let setT=new Date(setTime*1000);
-    set.textContent=`${setT.getHours()}:${setT.getMinutes()}`
+    set.textContent=`${setT.getHours()<10?`0${setT.getHours}`:setT.getHours()}:${setT.getMinutes()<10?`0${setT.getMinutes()}`:setT.getMinutes()}`
     // console.log(riseT)
 }
 
